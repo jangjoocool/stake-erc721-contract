@@ -1,0 +1,31 @@
+{
+  "name": "hardhat-project",
+  "scripts": {
+    "clean": "hardhat clean",
+    "compile": "hardhat compile",
+    "test:user": "hardhat test test.ts",
+    "flatten": "hardhat flatten > full/flatten_.sol",
+    "deploy:erc20-init-goerli": "hardhat --network goerli run scripts/erc20/deploy.ts",
+    "deploy:erc20-upgrade-goerli": "hardhat --network goerli run scripts/erc20/deploy-upgrade.ts",
+    "verify:erc20-goerli": "hardhat --network goerli run scripts/erc20/verify.ts",
+    "deploy:erc721-init-goerli": "hardhat --network goerli run scripts/erc721/deploy.ts",
+    "deploy:erc721-upgrade-goerli": "hardhat --network goerli run scripts/erc721/deploy-upgrade.ts",
+    "verify:erc721-goerli": "hardhat --network goerli run scripts/erc721/verify.ts",
+    "deploy:staking-init-goerli": "hardhat --network goerli run scripts/staking/deploy.ts",
+    "deploy:staking-upgrade-goerli": "hardhat --network goerli run scripts/staking/deploy-upgrade.ts",
+    "verify:staking-goerli": "hardhat --network goerli run scripts/staking/verify.ts"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
+    "@nomiclabs/hardhat-etherscan": "^3.1.2",
+    "@openzeppelin/contracts": "^4.8.0",
+    "@openzeppelin/contracts-upgradeable": "^4.8.0",
+    "@openzeppelin/hardhat-upgrades": "^1.21.0",
+    "hardhat": "^2.12.2"
+  },
+  "dependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.1",
+    "dotenv": "^16.0.3",
+    "ethers": "^5.7.2"
+  }
+}
