@@ -137,13 +137,16 @@ contract ERC721Staking is
     }
 
     function earned(address account) public view returns (uint256) {
-        return ((_stakerInfo[account].tokens.length().mul(
-                    rewardPerToken().sub(_stakerInfo[account].userRewardPerTokenPaid)
-                )).div(1e18))
-                .add(_stakerInfo[account].reward);
+        return _stakerInfo[account].tokens.length().mul(
+            rewardPerToken().sub(_stakerInfo[account].userRewardPerTokenPaid)
+        )
+        .div(1e18)
+        .add(_stakerInfo[account].reward);
     }
 
     function _setRewardRate(uint256 amount) internal {
+        require(amount > 0, "Staking: amount must be greater than zero");
+
         if (block.number >= finishBlock) {
             rewardRate = amount.div(duration);
         } else {
@@ -154,6 +157,8 @@ contract ERC721Staking is
 
     function _setRewardsDuration(uint256 duration_) internal {
         require(block.number > finishBlock, "Staking: reward duration not finished");
+        require(duration_ > 0, "Staking: duration must be greater than zero");
+
         duration = duration_;
     }
 
