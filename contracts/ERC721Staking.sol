@@ -9,7 +9,6 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeab
 import "@openzeppelin/contracts-upgradeable/token/ERC721/IERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/math/SafeMathUpgradeable.sol";
-import "./token/RewardToken.sol";
 
 contract ERC721Staking is 
     Initializable,
@@ -20,6 +19,16 @@ contract ERC721Staking is
     using SafeMathUpgradeable for uint256;
     using SafeERC20Upgradeable for IERC20Upgradeable;
 
+    struct Staker {
+        // rewardPerTokenStored
+        uint256 userRewardPerTokenPaid;
+        // rewards to be claimed
+        uint256 reward;
+        // staked tokens
+        EnumerableSetUpgradeable.UintSet tokens;
+    }
+
+    // Using tokens contract
     IERC20Upgradeable public rewardsToken;
     IERC721Upgradeable public stakingToken;
 
@@ -35,18 +44,8 @@ contract ERC721Staking is
     uint256 public rewardPerTokenStored;
     // Total staked amount
     uint256 public totalSupply;
-
     // User address => staked amount
     mapping(address => Staker) private _stakerInfo;
-
-    struct Staker {
-        // rewardPerTokenStored
-        uint userRewardPerTokenPaid;
-        // rewards to be claimed
-        uint reward;
-        // staked tokens
-        EnumerableSetUpgradeable.UintSet tokens;
-    }
 
     event Staking(address indexed account, uint256 amount);
     event Unstaking(address indexed account, uint256 amount);
@@ -63,30 +62,14 @@ contract ERC721Staking is
         _;   
     }
 
-     /// @custom:oz-upgrades-unsafe-allow constructor
+    /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
-       
+
     function initialize(address rewardsToken_, address stakingToken_) public initializer {
         __Ownable_init();
         __UUPSUpgradeable_init();
         rewardsToken = IERC20Upgradeable(rewardsToken_); 
         stakingToken = IERC721Upgradeable(stakingToken_);
-    }
-
-    function lastBlockRewardApplicable() public view returns (uint256) {
-        return finishBlock <= block.number ? finishBlock : block.number;
-    }
-
-    function rewardPerToken() public view returns (uint256) {
-        if (totalSupply > 0) {
-            return rewardPerTokenStored + (rewardRate * (lastBlockRewardApplicable() - lastUpdatedBlock) * 1e18) / totalSupply;
-        }
-        return rewardPerTokenStored;
-    }
-
-    function earned(address account) public view returns (uint256) {
-        return ((_stakerInfo[account].tokens.length()
-            * (rewardPerToken() - _stakerInfo[account].userRewardPerTokenPaid)) / 1e18) + _stakerInfo[account].reward;
     }
 
     function stake(uint256[] calldata tokenIds) external updateReward(_msgSender()) {
@@ -95,11 +78,11 @@ contract ERC721Staking is
         require(amount > 0, "Staking: amount must be greater than zero");
 
         for (uint256 i = 0; i < amount; i++) {
-            stakingToken.transferFrom(account, address(this), tokenIds[i]);
+            stakingToken.safeTransferFrom(account, address(this), tokenIds[i]);
             _stakerInfo[account].tokens.add(tokenIds[i]);
         }
 
-        totalSupply += amount;
+        totalSupply = totalSupply.add(amount);
         emit Staking(account, amount);
     }
 
@@ -114,7 +97,7 @@ contract ERC721Staking is
             _stakerInfo[account].tokens.remove(tokenIds[i]);
         }
 
-        totalSupply -= amount;
+        totalSupply = totalSupply.sub(amount);
         emit Unstaking(account, amount);
     }
 
@@ -124,7 +107,7 @@ contract ERC721Staking is
         require(reward > 0, "Staking: reward is zero");
 
         _stakerInfo[account].reward = 0;
-        rewardsToken.transfer(account, reward);        
+        rewardsToken.safeTransfer(account, reward);        
 
         emit Claim(account, reward);
     }
@@ -134,18 +117,38 @@ contract ERC721Staking is
         _setRewardRate(amount);
 
         require(rewardRate > 0, "reward rate must be greater than zero");
-        require(rewardRate * duration <= rewardsToken.balanceOf(address(this)), "Provided reward too high");
+        require(rewardRate.mul(duration) <= rewardsToken.balanceOf(address(this)), "Provided reward too high");
 
-        finishBlock = block.number + duration;
+        finishBlock = duration.add(block.number);
         lastUpdatedBlock = block.number;
+    }
+
+    function lastBlockRewardApplicable() public view returns (uint256) {
+        return finishBlock <= block.number ? finishBlock : block.number;
+    }
+
+    function rewardPerToken() public view returns (uint256) {
+        if (totalSupply > 0) {
+            return rewardPerTokenStored.add(
+                    rewardRate.mul(lastBlockRewardApplicable().sub(lastUpdatedBlock)).mul(1e18).div(totalSupply)
+                );
+        }
+        return rewardPerTokenStored;
+    }
+
+    function earned(address account) public view returns (uint256) {
+        return ((_stakerInfo[account].tokens.length().mul(
+                    rewardPerToken().sub(_stakerInfo[account].userRewardPerTokenPaid)
+                )).div(1e18))
+                .add(_stakerInfo[account].reward);
     }
 
     function _setRewardRate(uint256 amount) internal {
         if (block.number >= finishBlock) {
-            rewardRate = amount / duration;
+            rewardRate = amount.div(duration);
         } else {
-            uint256 remainingRewards = (finishBlock - block.number) * rewardRate;
-            rewardRate = (amount + remainingRewards) / duration;
+            uint256 remainingRewards = finishBlock.sub(block.number).mul(rewardRate);
+            rewardRate = amount.add(remainingRewards).div(duration);
         }
     }
 
