@@ -37,7 +37,7 @@ contract StakingNFT is
         _tokenIdTracker.increment();
     }
 
-    function setBaseURI(string calldata uri) external onlyAdmin {
+    function setBaseURI(string calldata uri) public onlyAdmin {
         _baseTokenURI = uri;
     }
 
