@@ -4,13 +4,13 @@ pragma solidity ^0.8.17;
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
-import "../lib/RoleControl.sol";
+import "../lib/RoleControlUpgradeable.sol";
 
 contract RewardToken is 
     Initializable,
     UUPSUpgradeable,
     ERC20Upgradeable,
-    RoleControl
+    RoleControlUpgradeable
 {   
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
