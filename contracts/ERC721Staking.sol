@@ -9,10 +9,12 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeab
 import "@openzeppelin/contracts-upgradeable/token/ERC721/IERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/math/SafeMathUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
 
 contract ERC721Staking is 
     Initializable,
     OwnableUpgradeable,
+    ReentrancyGuardUpgradeable,
     UUPSUpgradeable
 {
     using EnumerableSetUpgradeable for EnumerableSetUpgradeable.UintSet;
@@ -67,12 +69,13 @@ contract ERC721Staking is
 
     function initialize(address rewardsToken_, address stakingToken_) public initializer {
         __Ownable_init();
+        __ReentrancyGuard_init();
         __UUPSUpgradeable_init();
         rewardsToken = IERC20Upgradeable(rewardsToken_); 
         stakingToken = IERC721Upgradeable(stakingToken_);
     }
 
-    function stake(uint256[] calldata tokenIds) external updateReward(_msgSender()) {
+    function stake(uint256[] calldata tokenIds) external nonReentrant updateReward(_msgSender()) {
         address account = _msgSender();
         uint256 amount = tokenIds.length;
         require(amount > 0, "Staking: amount must be greater than zero");
@@ -86,7 +89,7 @@ contract ERC721Staking is
         emit Staking(account, amount);
     }
 
-    function withdraw(uint256[] calldata tokenIds) external updateReward(_msgSender()) {
+    function withdraw(uint256[] calldata tokenIds) external nonReentrant updateReward(_msgSender()) {
         uint256 amount = tokenIds.length;
         require(amount > 0, "Staking: amount must be greater than zero");
 
@@ -101,7 +104,7 @@ contract ERC721Staking is
         emit Unstaking(account, amount);
     }
 
-    function claim() external updateReward(_msgSender()) {
+    function claim() external nonReentrant updateReward(_msgSender()) {
         address account = _msgSender();
         uint256 reward = _stakerInfo[account].reward;
         require(reward > 0, "Staking: reward is zero");

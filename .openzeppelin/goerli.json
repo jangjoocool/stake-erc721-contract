@@ -20,6 +20,11 @@
       "address": "0xe67e1F0d01f4F2935cCcE97a5C8D2DCfC3e2F6D0",
       "txHash": "0x2594a0de2c9e024d6d797a301711a15ae7fe9f5946d8ae747e16b9d555633c1b",
       "kind": "uups"
+    },
+    {
+      "address": "0x99e4cB2a1dfd60D3884E57d87305cBdBDb18EA9E",
+      "txHash": "0x09a9010c78c9ceaa92fd24e5643a9ad024f162b943a49a274b813999b6895d42",
+      "kind": "uups"
     }
   ],
   "impls": {
@@ -841,6 +846,264 @@
           "t_mapping(t_address,t_uint256)": {
             "label": "mapping(address => uint256)",
             "numberOfBytes": "32"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "0fe0cce6a3ceeae4539312425969d08972b619b50d3f15c7350d88683b839273": {
+      "address": "0xc0DCFdbfD76F222c50C46E335155eEf32AfF1Acf",
+      "txHash": "0x3c83f22639002974bec1a6c6b6e5b7559d3a1b0412637e3dd1eebbd5021591af",
+      "layout": {
+        "solcVersion": "0.8.17",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "_status",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_uint256",
+            "contract": "ReentrancyGuardUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:38"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "ReentrancyGuardUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:80"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC1967UpgradeUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/ERC1967/ERC1967UpgradeUpgradeable.sol:211"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "UUPSUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol:107"
+          },
+          {
+            "label": "rewardsToken",
+            "offset": 0,
+            "slot": "251",
+            "type": "t_contract(IERC20Upgradeable)1997",
+            "contract": "ERC721Staking",
+            "src": "contracts/ERC721Staking.sol:34"
+          },
+          {
+            "label": "stakingToken",
+            "offset": 0,
+            "slot": "252",
+            "type": "t_contract(IERC721Upgradeable)3443",
+            "contract": "ERC721Staking",
+            "src": "contracts/ERC721Staking.sol:35"
+          },
+          {
+            "label": "duration",
+            "offset": 0,
+            "slot": "253",
+            "type": "t_uint256",
+            "contract": "ERC721Staking",
+            "src": "contracts/ERC721Staking.sol:38"
+          },
+          {
+            "label": "finishBlock",
+            "offset": 0,
+            "slot": "254",
+            "type": "t_uint256",
+            "contract": "ERC721Staking",
+            "src": "contracts/ERC721Staking.sol:40"
+          },
+          {
+            "label": "lastUpdatedBlock",
+            "offset": 0,
+            "slot": "255",
+            "type": "t_uint256",
+            "contract": "ERC721Staking",
+            "src": "contracts/ERC721Staking.sol:42"
+          },
+          {
+            "label": "rewardRate",
+            "offset": 0,
+            "slot": "256",
+            "type": "t_uint256",
+            "contract": "ERC721Staking",
+            "src": "contracts/ERC721Staking.sol:44"
+          },
+          {
+            "label": "rewardPerTokenStored",
+            "offset": 0,
+            "slot": "257",
+            "type": "t_uint256",
+            "contract": "ERC721Staking",
+            "src": "contracts/ERC721Staking.sol:46"
+          },
+          {
+            "label": "totalSupply",
+            "offset": 0,
+            "slot": "258",
+            "type": "t_uint256",
+            "contract": "ERC721Staking",
+            "src": "contracts/ERC721Staking.sol:48"
+          },
+          {
+            "label": "_stakerInfo",
+            "offset": 0,
+            "slot": "259",
+            "type": "t_mapping(t_address,t_struct(Staker)7476_storage)",
+            "contract": "ERC721Staking",
+            "src": "contracts/ERC721Staking.sol:50"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_bytes32)dyn_storage": {
+            "label": "bytes32[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IERC20Upgradeable)1997": {
+            "label": "contract IERC20Upgradeable",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IERC721Upgradeable)3443": {
+            "label": "contract IERC721Upgradeable",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_struct(Staker)7476_storage)": {
+            "label": "mapping(address => struct ERC721Staking.Staker)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_uint256)": {
+            "label": "mapping(bytes32 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Set)5349_storage": {
+            "label": "struct EnumerableSetUpgradeable.Set",
+            "members": [
+              {
+                "label": "_values",
+                "type": "t_array(t_bytes32)dyn_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "_indexes",
+                "type": "t_mapping(t_bytes32,t_uint256)",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(Staker)7476_storage": {
+            "label": "struct ERC721Staking.Staker",
+            "members": [
+              {
+                "label": "userRewardPerTokenPaid",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "reward",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "tokens",
+                "type": "t_struct(UintSet)5821_storage",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "128"
+          },
+          "t_struct(UintSet)5821_storage": {
+            "label": "struct EnumerableSetUpgradeable.UintSet",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)5349_storage",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "64"
           },
           "t_uint256": {
             "label": "uint256",
