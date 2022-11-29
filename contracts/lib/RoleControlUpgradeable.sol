@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 
-contract RoleControl is AccessControl {
+contract RoleControlUpgradeable is AccessControlUpgradeable {
     // Roles
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
@@ -17,12 +17,15 @@ contract RoleControl is AccessControl {
         _;
     }
 
-    constructor() {
+    function __RoleControl_init() internal onlyInitializing {
+        __RoleControl_init_unchained();
+    }
+
+    function __RoleControl_init_unchained() internal onlyInitializing {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
         _setRoleAdmin(MINTER_ROLE, DEFAULT_ADMIN_ROLE);
     }
 
-    // function supportsInterface(bytes4 iz
     function addAdmin(address account) external virtual onlyAdmin {
         grantRole(DEFAULT_ADMIN_ROLE, account);
     }

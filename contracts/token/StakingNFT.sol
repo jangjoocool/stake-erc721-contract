@@ -5,13 +5,13 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
-import "../lib/RoleControl.sol";
+import "../lib/RoleControlUpgradeable.sol";
 
 contract StakingNFT is 
     Initializable,
     UUPSUpgradeable,
     ERC721Upgradeable,
-    RoleControl
+    RoleControlUpgradeable
 {
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
@@ -27,7 +27,7 @@ contract StakingNFT is
         __ERC721_init(name_, symbol_);
     }
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721Upgradeable, RoleControl) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721Upgradeable, AccessControlUpgradeable) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
 
