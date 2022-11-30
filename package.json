@@ -3,7 +3,7 @@
   "scripts": {
     "clean": "hardhat clean",
     "compile": "hardhat compile",
-    "test:user": "hardhat test test.ts",
+    "test": "hardhat test test/test.ts",
     "flatten": "hardhat flatten > full/flatten_.sol",
     "deploy:erc20-init-goerli": "hardhat --network goerli run scripts/erc20/deploy.ts",
     "deploy:erc20-upgrade-goerli": "hardhat --network goerli run scripts/erc20/deploy-upgrade.ts",
@@ -21,11 +21,14 @@
     "@openzeppelin/contracts": "^4.8.0",
     "@openzeppelin/contracts-upgradeable": "^4.8.0",
     "@openzeppelin/hardhat-upgrades": "^1.21.0",
+    "@types/chai": "^4.3.4",
+    "@types/mocha": "^10.0.1",
     "hardhat": "^2.12.2"
   },
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "^2.2.1",
     "dotenv": "^16.0.3",
-    "ethers": "^5.7.2"
+    "ethers": "^5.7.2",
+    "hardhat-gas-reporter": "^1.0.9"
   }
 }
