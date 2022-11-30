@@ -34,6 +34,8 @@ contract ERC721Staking is
     IERC20Upgradeable public rewardsToken;
     IERC721Upgradeable public stakingToken;
 
+    // User address => staked amount
+    mapping(address => Staker) private _stakerInfo;
     // Duration of rewards to be paid out (in seconds)
     uint256 public duration;
     // Block number of when the rewards finish
@@ -46,8 +48,6 @@ contract ERC721Staking is
     uint256 public rewardPerTokenStored;
     // Total staked amount
     uint256 public totalSupply;
-    // User address => staked amount
-    mapping(address => Staker) private _stakerInfo;
 
     event Staking(address indexed account, uint256 amount);
     event Unstaking(address indexed account, uint256 amount);
